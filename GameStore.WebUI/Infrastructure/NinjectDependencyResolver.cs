@@ -36,12 +36,12 @@ namespace GameStore.WebUI.Infrastructure
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game { Name = "SIMS 4", Price = 1499 },
-                new Game { Name = "Grand Theft Auto 5", Price = 2599 },
-                new Game { Name = "Mafia 2", Price = 1899 },
+                new Game { Name = "SIMS 4", Price = 499 },
+                new Game { Name = "Grand Theft Auto 5", Price = 599 },
+                new Game { Name = "Mafia 2", Price = 399 },
                 new Game { Name = "Battlefield 3", Price = 1099 },
-                new Game { Name = "Call of duty: Modern Warfare 2", Price = 1299 },
-                new Game { Name = "Rome II: Total war", Price = 1999 },
+                new Game { Name = "Call of duty: Modern Warfare 2", Price = 799 },
+                new Game { Name = "Rome II: Total war", Price = 999 },
             });
             kernel.Bind<IGameRepository>().ToConstant(mock.Object);
         }
