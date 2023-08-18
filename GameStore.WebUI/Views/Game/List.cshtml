@@ -8,13 +8,7 @@
 
 @foreach (var p in @Model.Games)
 {
-    <div class="well">
-        <h3>
-            <strong>@p.Name</strong>
-            <span class="pull-right label label-primary">@p.Price.ToString("# mdl")</span>
-        </h3>
-        <span class="lead">@p.Description</span>
-    </div>
+    @Html.Partial("GameSummary", p)
 }
 
 <div class="btn-group pull-right">
