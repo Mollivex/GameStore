@@ -40,10 +40,10 @@ namespace GameStore.WebUI.Tests
             controller.pageSize = 3;
 
             // Action (act)
-            IEnumerable<Game> result = (IEnumerable<Game>)controller.List(2).Model;
+            GamesListViewModel result = (GamesListViewModel)controller.List(2).Model;
 
             // Statement (assert)
-            List<Game> games = result.ToList();
+            List<Game> games = result.Games.ToList();
             Assert.IsTrue(games.Count == 2);
             Assert.AreEqual(games[0].Name, "Game11");
             Assert.AreEqual(games[1].Name, "Game12");
@@ -74,6 +74,40 @@ namespace GameStore.WebUI.Tests
                             + @"<a class="" btn btn-default btn-primary selected"" href=""Page2"">2</a>"
                             + @"<a class=""btn btn-default"" href=""Page3"">3<a/a>",
                             result.ToString());
+        }
+
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model()
+        {
+            // Organization (arrange)
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+            mock.Setup(m => m.Games).Returns(new List<Game>
+            {
+                new Game {GameId = 8, Name = "Game1" },
+                new Game {GameId = 9, Name = "Game2" },
+                new Game {GameId = 10, Name = "Game3" },
+                new Game {GameId = 11, Name = "Game4" },
+                new Game {GameId = 12, Name = "Game5" },
+                new Game {GameId = 13, Name = "Game6" },
+                new Game {GameId = 14, Name = "Game7" },
+                new Game {GameId = 15, Name = "Game8" },
+                new Game {GameId = 16, Name = "Game9" },
+                new Game {GameId = 17, Name = "Game10" },
+                new Game {GameId = 18, Name = "Game11" },
+                new Game {GameId = 19, Name = "Game12" }
+            });
+            GameController controller = new GameController(mock.Object);
+            controller.pageSize = 3;
+
+            // Act
+            GamesListViewModel result = (GamesListViewModel)controller.List(2).Model;
+
+            // Assert
+            PagingInfo pageInfo = result.PagingInfo;
+            Assert.AreEqual(pageInfo.CurrentPage, 2);
+            Assert.AreEqual(pageInfo.ItemPerPage, 3);
+            Assert.AreEqual(pageInfo.TotalItems, 2);
+            Assert.AreEqual(pageInfo.TotalPages, 2);
         }
     }
 }
