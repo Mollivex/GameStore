@@ -13,6 +13,13 @@ namespace GameStore.WebUI.HtmlHelpers
 {
     public static class PagingHelper
     {
+        /// <summary>
+        /// Generates HTML-markup for the references package on pages with an information from the PagingInfo object
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="pagingInfo"></param>
+        /// <param name="pageUrl"></param>
+        /// <returns></returns>
         public static MvcHtmlString PageLinks(this HtmlHelper html,
             PagingInfo pagingInfo,
             Func<int, string> pageUrl)

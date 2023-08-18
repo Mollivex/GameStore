@@ -7,16 +7,24 @@ namespace GameStore.WebUI.Models
 {
     public class PagingInfo
     {
-            // Products total number
+            /// <summary>
+            /// Products total number
+            /// </summary>
         public int TotalItems { get; set; }
 
-            // Products total number on the one page
+            /// <summary>
+            /// Products total number on the one page
+            /// </summary>
         public int ItemPerPage { get; set; }
 
-            // Current page number
+            /// <summary>
+            /// Current page number
+            /// </summary>
         public int CurrentPage { get; set; }
 
-            // Pages total number
+            /// <summary>
+            /// Pages total number
+            /// </summary>
         public int TotalPages
         {
             get { return (int)Math.Ceiling((decimal)TotalItems / ItemPerPage); }

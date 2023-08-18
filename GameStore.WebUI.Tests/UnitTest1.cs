@@ -7,6 +7,8 @@ using Moq;
 using GameStore.Domain.Abstract;
 using GameStore.Domain.Entities;
 using GameStore.WebUI.Controllers;
+using GameStore.WebUI.Models;
+using GameStore.WebUI.HtmlHelpers;
 
 namespace GameStore.WebUI.Tests
 {
@@ -45,6 +47,33 @@ namespace GameStore.WebUI.Tests
             Assert.IsTrue(games.Count == 2);
             Assert.AreEqual(games[0].Name, "Game11");
             Assert.AreEqual(games[1].Name, "Game12");
+        }
+
+        [TestMethod]
+        public void Can_Generate_Page_Links()
+        {
+            // Organization - definition HTML additional method - it's need to use extenstion method
+            HtmlHelper myHelper = null;
+
+            // Organization - creating PagingInfo object
+            PagingInfo pagingInfo = new PagingInfo()
+            {
+                CurrentPage = 2,
+                TotalItems = 28,
+                ItemPerPage = 10
+            };
+
+            // Organization - delegate set up with lambda expression
+            Func<int, string> pageUrlDelegate = i => "Page" + i;
+
+            // Action
+            MvcHtmlString result = myHelper.PageLinks(pagingInfo, pageUrlDelegate);
+
+            // Statement
+            Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a>"
+                            + @"<a class="" btn btn-default btn-primary selected"" href=""Page2"">2</a>"
+                            + @"<a class=""btn btn-default"" href=""Page3"">3<a/a>",
+                            result.ToString());
         }
     }
 }
