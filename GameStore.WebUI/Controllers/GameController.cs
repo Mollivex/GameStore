@@ -22,7 +22,7 @@ namespace GameStore.WebUI.Controllers
 
         public ViewResult List(int page = 1)
         {
-            GameListViewModel model = new GameListViewModel
+            GamesListViewModel model = new GamesListViewModel
             {
                 Games = repository.Games
                     .OrderBy(game => game.GameId)
