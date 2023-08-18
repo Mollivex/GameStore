@@ -40,7 +40,7 @@ namespace GameStore.WebUI.Tests
             controller.pageSize = 3;
 
             // Action (act)
-            GamesListViewModel result = (GamesListViewModel)controller.List(2).Model;
+            GamesListViewModel result = (GamesListViewModel)controller.List(null, 2).Model;
 
             // Statement (assert)
             List<Game> games = result.Games.ToList();
@@ -100,7 +100,7 @@ namespace GameStore.WebUI.Tests
             controller.pageSize = 3;
 
             // Act
-            GamesListViewModel result = (GamesListViewModel)controller.List(2).Model;
+            GamesListViewModel result = (GamesListViewModel)controller.List(null, 2).Model;
 
             // Assert
             PagingInfo pageInfo = result.PagingInfo;
