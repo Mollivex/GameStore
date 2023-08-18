@@ -109,5 +109,37 @@ namespace GameStore.WebUI.Tests
             Assert.AreEqual(pageInfo.TotalItems, 2);
             Assert.AreEqual(pageInfo.TotalPages, 2);
         }
+
+        [TestMethod]
+        public void Can_Filter_Games()
+        {
+            // Organization (arrange)
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+            mock.Setup(m => m.Games).Returns(new List<Game>
+            {
+                new Game {GameId = 8, Name = "Game1", Category = "Cat1" },
+                new Game {GameId = 9, Name = "Game2", Category = "Cat2" },
+                new Game {GameId = 10, Name = "Game3", Category = "Cat1" },
+                new Game {GameId = 11, Name = "Game4", Category = "Cat3" },
+                new Game {GameId = 12, Name = "Game5", Category = "Cat2" },
+                new Game {GameId = 13, Name = "Game6", Category = "Cat1" },
+                new Game {GameId = 14, Name = "Game7", Category = "Cat4" },
+                new Game {GameId = 15, Name = "Game8", Category = "Cat1" },
+                new Game {GameId = 16, Name = "Game9", Category = "Cat4" },
+                new Game {GameId = 17, Name = "Game10", Category = "Cat3" },
+                new Game {GameId = 18, Name = "Game11", Category = "Cat1" },
+                new Game {GameId = 19, Name = "Game12", Category = "Cat3" }
+            });
+            GameController controller = new GameController(mock.Object);
+            controller.pageSize = 3;
+
+            // Action
+            List<Game> result = ((GamesListViewModel)controller.List("Cat2", 1).Model).Games.ToList();
+
+            // Assert
+            Assert.AreEqual(result.Count(), 2);
+            Assert.IsTrue(result[0].Name == "Game2" && result[0].Category == "Cat2");
+            Assert.IsTrue(result[0].Name == "Game5" && result[1].Category == "Cat2");
+        }
     }
 }
