@@ -1,20 +1,23 @@
 ﻿@using GameStore.WebUI.Models
+@using GameStore.WebUI.HtmlHelpers
 @model GamesListViewModel
 
 @{
     ViewBag.Title = "Products";
 }
 
-@foreach(var p in @Model.Games)
- {
-    <div>
-        <h3>@p.Name</h3>
-        <p>@p.Description</p>
-        <h4>@p.Price.ToString("# mdl")</h4>
+@foreach (var p in @Model.Games)
+{
+    <div class="well">
+        <h3>
+            <strong>@p.Name</strong>
+            <span class="pull-right label label-primary">@p.Price.ToString("# mdl")</span>
+        </h3>
+        <span class="lead">@p.Description</span>
     </div>
- }
+}
 
-<div>
+<div class="btn-group pull-right">
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
 </div>
 
