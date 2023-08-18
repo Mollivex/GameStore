@@ -14,6 +14,13 @@ namespace GameStore.WebUI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: null,
+                url: "Page{page}",
+                defaults: new {controller = "Game", action = "List"}
+
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Game", action = "List", id = UrlParameter.Optional }
