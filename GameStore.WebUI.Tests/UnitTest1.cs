@@ -176,5 +176,39 @@ namespace GameStore.WebUI.Tests
             Assert.AreEqual(results[2], "Action-adventure");
             Assert.AreEqual(results[3], "First-person shooter");
         }
+
+        [TestMethod]
+        public void Indicates_Selected_Categories()
+        {
+            // Organization - creating simulated storage
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+            mock.Setup(m => m.Games).Returns(new Game[]
+            {
+                new Game {GameId = 8, Name = "Game1", Category = "Simulator" },
+                new Game {GameId = 9, Name = "Game2", Category = "First-person shooter" },
+                new Game {GameId = 10, Name = "Game3", Category = "Simulator" },
+                new Game {GameId = 11, Name = "Game4", Category = "Racing" },
+                new Game {GameId = 12, Name = "Game5", Category = "First-person shooter" },
+                new Game {GameId = 13, Name = "Game6", Category = "Simulator" },
+                new Game {GameId = 14, Name = "Game7", Category = "Action-adventure" },
+                new Game {GameId = 15, Name = "Game8", Category = "Simulator" },
+                new Game {GameId = 16, Name = "Game9", Category = "Action-adventure" },
+                new Game {GameId = 17, Name = "Game10", Category = "Racing" },
+                new Game {GameId = 18, Name = "Game11", Category = "Simulator" },
+                new Game {GameId = 19, Name = "Game12", Category = "Racing" }
+            });
+
+            // Organization - creating controller
+            NavController target = new NavController(mock.Object);
+
+            // Organization - selected category definition
+            string categoryToSelect = "Simulator";
+
+            // Action
+            string result = target.Menu(categoryToSelect).ViewBag.SelectedCategory;
+
+            // Statement
+            Assert.AreEqual(categoryToSelect, result);
+        }
     }
 }
