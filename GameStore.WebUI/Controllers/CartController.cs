@@ -31,7 +31,7 @@ namespace GameStore.WebUI.Controllers
             Game game = repository.Games
                 .FirstOrDefault(g => g.GameId == gameId);
 
-            if(game == null )
+            if(game != null )
             {
                 GetCart().AddItem(game, 1);
             }

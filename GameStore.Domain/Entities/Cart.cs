@@ -12,7 +12,7 @@ namespace GameStore.Domain.Entities
 
         public void AddItem(Game game, int quantity)
         {
-             CartLine line = lineCollection
+            CartLine line = lineCollection
                 .Where(g => g.Game.GameId == game.GameId)
                 .FirstOrDefault();
 
@@ -25,7 +25,9 @@ namespace GameStore.Domain.Entities
                 });
             }
             else
+            {
                 line.Quantity += quantity;
+            }
         }
 
         public void RemoveLine(Game game)
