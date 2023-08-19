@@ -146,7 +146,7 @@ namespace GameStore.WebUI.Tests
         public void Can_Create_Categories()
         {
             // Organization - creating simualated storage
-            Mock<IGameRepository> mock = new Mock<IGameRepository>);
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
                 new Game {GameId = 8, Name = "Game1", Category = "Simulator" },
@@ -209,6 +209,44 @@ namespace GameStore.WebUI.Tests
 
             // Statement
             Assert.AreEqual(categoryToSelect, result);
+        }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Game_Count()
+        {
+            // Organization (arrange)
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+            mock.Setup(m => m.Games).Returns(new List<Game>
+            {
+                new Game {GameId = 8, Name = "Game1", Category = "Cat1" },
+                new Game {GameId = 9, Name = "Game2", Category = "Cat2" },
+                new Game {GameId = 10, Name = "Game3", Category = "Cat1" },
+                new Game {GameId = 11, Name = "Game4", Category = "Cat3" },
+                new Game {GameId = 12, Name = "Game5", Category = "Cat2" },
+                new Game {GameId = 13, Name = "Game6", Category = "Cat1" },
+                new Game {GameId = 14, Name = "Game7", Category = "Cat4" },
+                new Game {GameId = 15, Name = "Game8", Category = "Cat1" },
+                new Game {GameId = 16, Name = "Game9", Category = "Cat4" },
+                new Game {GameId = 17, Name = "Game10", Category = "Cat3" },
+                new Game {GameId = 18, Name = "Game11", Category = "Cat1" },
+                new Game {GameId = 19, Name = "Game12", Category = "Cat3" }
+            });
+            GameController controller = new GameController(mock.Object);
+            controller.pageSize = 3;
+
+            // Action - testing the counter of products for different categories
+            int res1 = ((GamesListViewModel)controller.List("Cat1").Model).PagingInfo.TotalItems;
+            int res2 = ((GamesListViewModel)controller.List("Cat2").Model).PagingInfo.TotalItems;
+            int res3 = ((GamesListViewModel)controller.List("Cat3").Model).PagingInfo.TotalItems;
+            int res4 = ((GamesListViewModel)controller.List("Cat4").Model).PagingInfo.TotalItems;
+            int resAll = ((GamesListViewModel)controller.List("null").Model).PagingInfo.TotalItems;
+
+            // Statement
+            Assert.AreEqual(res1, 5);
+            Assert.AreEqual(res2, 2);
+            Assert.AreEqual(res3, 3);
+            Assert.AreEqual(res4, 2);
+            Assert.AreEqual(resAll, 12);
         }
     }
 }
