@@ -141,5 +141,40 @@ namespace GameStore.WebUI.Tests
             Assert.IsTrue(result[0].Name == "Game2" && result[0].Category == "Cat2");
             Assert.IsTrue(result[0].Name == "Game5" && result[1].Category == "Cat2");
         }
+
+        [TestMethod]
+        public void Can_Create_Categories()
+        {
+            // Organization - creating simualated storage
+            Mock<IGameRepository> mock = new Mock<IGameRepository>);
+            mock.Setup(m => m.Games).Returns(new List<Game>
+            {
+                new Game {GameId = 8, Name = "Game1", Category = "Simulator" },
+                new Game {GameId = 9, Name = "Game2", Category = "First-person shooter" },
+                new Game {GameId = 10, Name = "Game3", Category = "Simulator" },
+                new Game {GameId = 11, Name = "Game4", Category = "Racing" },
+                new Game {GameId = 12, Name = "Game5", Category = "First-person shooter" },
+                new Game {GameId = 13, Name = "Game6", Category = "Simulator" },
+                new Game {GameId = 14, Name = "Game7", Category = "Action-adventure" },
+                new Game {GameId = 15, Name = "Game8", Category = "Simulator" },
+                new Game {GameId = 16, Name = "Game9", Category = "Action-adventure" },
+                new Game {GameId = 17, Name = "Game10", Category = "Racing" },
+                new Game {GameId = 18, Name = "Game11", Category = "Simulator" },
+                new Game {GameId = 19, Name = "Game12", Category = "Racing" }
+            });
+
+            // Organization - creating controller
+            NavController target = new NavController(mock.Object);
+
+            // Action -  getting the categories set
+            List<string> results = ((IEnumerable<string>)target.Menu().Model).ToList();
+
+            // Statement
+            Assert.AreEqual(results.Count(), 3);
+            Assert.AreEqual(results[0], "Simulator");
+            Assert.AreEqual(results[1], "Racing");
+            Assert.AreEqual(results[2], "Action-adventure");
+            Assert.AreEqual(results[3], "First-person shooter");
+        }
     }
 }
