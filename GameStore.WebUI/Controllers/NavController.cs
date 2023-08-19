@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameStore.Domain.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,19 @@ namespace GameStore.WebUI.Controllers
 {
     public class NavController : Controller
     {
-        public string Menu()
+        private IGameRepository repository;
+
+        public NavController(IGameRepository repo)
         {
-            return "Nav controller testing";
+            repository = repo;
+        }
+        public PartialViewResult Menu()
+        {
+            IEnumerable<string> categories = repository.Games
+                .Select(game => game.Category)
+                .Distinct()
+                .OrderBy(x => x);
+            return PartialView(categories);
         }
     }
 }
