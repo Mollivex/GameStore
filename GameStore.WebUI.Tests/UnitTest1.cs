@@ -249,4 +249,142 @@ namespace GameStore.WebUI.Tests
             Assert.AreEqual(resAll, 12);
         }
     }
+    
+    [TestClass]
+    public class CartTests
+    {
+        [TestMethod]
+        public void Can_Add_New_Items()
+        {
+            // Organization - creating a few test games
+            Game game1 = new Game { GameId = 1, Name = "Game1" };
+            Game game2 = new Game { GameId = 2, Name = "Game2" };
+            Game game3 = new Game { GameId = 3, Name = "Game3" };
+            Game game4 = new Game { GameId = 4, Name = "Game4" };
+
+            // Organization - creating cart
+            Cart cart = new Cart();
+
+            // Action
+            cart.AddItem(game1, 1);
+            cart.AddItem(game2, 1);
+            cart.AddItem(game3, 1);
+            cart.AddItem(game4, 1);
+            List<CartLine> results = cart.Lines.ToList();
+
+            // Statement
+            Assert.AreEqual(results.Count(), 4);
+            Assert.AreEqual(results[0].Game, game1);
+            Assert.AreEqual(results[1].Game, game2);
+            Assert.AreEqual(results[2].Game, game3);
+            Assert.AreEqual(results[3].Game, game4);
+        }
+
+        [TestMethod]
+        public void Can_Add_Quantity_For_Existing_Lines()
+        {
+            // Organization - creating a few test games
+            Game game1 = new Game { GameId = 1, Name = "Game1" };
+            Game game2 = new Game { GameId = 2, Name = "Game2" };
+            Game game3 = new Game { GameId = 3, Name = "Game3" };
+            Game game4 = new Game { GameId = 4, Name = "Game4" };
+
+            // Organization - creating cart
+            Cart cart = new Cart();
+
+            // Action - adding a few games to the cart
+            cart.AddItem(game1, 2);
+            cart.AddItem(game4, 2);
+            cart.AddItem(game2, 2);
+            cart.AddItem(game3, 1);
+            cart.AddItem(game1, 1);
+            cart.AddItem(game4, 3);
+            List<CartLine> results = cart.Lines.OrderBy(c => c.Game.GameId).ToList();
+
+            // Statement
+            Assert.AreEqual(results.Count(), 4);
+            Assert.AreEqual(results[0].Quantity, 3); // 3 instances are added to cart
+            Assert.AreEqual(results[1].Quantity, 2); // 2 instances are added to cart
+            Assert.AreEqual(results[2].Quantity, 1);
+            Assert.AreEqual(results[3].Quantity, 5); // 6 instances are added to cart
+        }
+
+        [TestMethod]
+        public void Can_Remove_Line()
+        {
+            // Organization - creating a few test games
+            Game game1 = new Game { GameId = 1, Name = "Game1" };
+            Game game2 = new Game { GameId = 2, Name = "Game2" };
+            Game game3 = new Game { GameId = 3, Name = "Game3" };
+            Game game4 = new Game { GameId = 4, Name = "Game4" };
+
+            // Organization - creating cart
+            Cart cart = new Cart();
+
+            // Organization - adding a few games to the cart
+            cart.AddItem(game1, 2);
+            cart.AddItem(game4, 2);
+            cart.AddItem(game2, 2);
+            cart.AddItem(game3, 1);
+            cart.AddItem(game1, 1);
+            cart.AddItem(game4, 3);
+
+            // Action
+            cart.RemoveLine(game2);
+
+            // Statement
+            Assert.AreEqual(cart.Lines.Where(c => c.Game == game2).Count(), 0);
+            Assert.AreEqual(cart.Lines.Count(), 2);
+        }
+
+        [TestMethod]
+        public void Calculate_Cart_Total()
+        {
+            // Organization - creating a few test games
+            Game game1 = new Game { GameId = 1, Name = "Game1", Price = 100 };
+            Game game2 = new Game { GameId = 2, Name = "Game2", Price = 75 };
+            Game game3 = new Game { GameId = 3, Name = "Game3", Price = 50 };
+            Game game4 = new Game { GameId = 4, Name = "Game4", Price = 25 };
+
+            // Organization - creating cart
+            Cart cart = new Cart();
+
+            // Action
+            cart.AddItem(game1, 2);
+            cart.AddItem(game4, 2);
+            cart.AddItem(game2, 2);
+            cart.AddItem(game3, 1);
+            cart.AddItem(game1, 1);
+            cart.AddItem(game4, 3);
+            decimal result = cart.ComputeTotalValue();
+
+            // Statement
+            Assert.AreEqual(result, 625);
+        }
+
+        [TestMethod]
+        public void Can_Clear_Contents()
+        {
+            // Organization - creating a few test games
+            Game game1 = new Game { GameId = 1, Name = "Game1", Price = 100 };
+            Game game2 = new Game { GameId = 2, Name = "Game2", Price = 75 };
+            Game game3 = new Game { GameId = 3, Name = "Game3", Price = 50 };
+            Game game4 = new Game { GameId = 4, Name = "Game4", Price = 25 };
+
+            // Organization - creating cart
+            Cart cart = new Cart();
+
+            // Action
+            cart.AddItem(game1, 2);
+            cart.AddItem(game4, 2);
+            cart.AddItem(game2, 2);
+            cart.AddItem(game3, 1);
+            cart.AddItem(game1, 1);
+            cart.AddItem(game4, 3);
+            cart.Clear();
+
+            // Statement
+            Assert.AreEqual(cart.Lines.Count(), 0);
+        }
+    }
 }
