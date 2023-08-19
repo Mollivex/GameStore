@@ -149,6 +149,7 @@
     <Content Include="Views\Game\List.cshtml" />
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Shared\GameSummary.cshtml" />
+    <Content Include="Views\Nav\Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -160,7 +161,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\List\" />
-    <Folder Include="Views\Nav\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameStore.Domain\GameStore.Domain.csproj">
