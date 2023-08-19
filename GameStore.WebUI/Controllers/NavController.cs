@@ -13,7 +13,7 @@ namespace GameStore.WebUI.Controllers
 
         public NavController(IGameRepository repo)
         {
-            repository = repo;
+            this.repository = repo;
         }
         public PartialViewResult Menu(string category = null)
         {
