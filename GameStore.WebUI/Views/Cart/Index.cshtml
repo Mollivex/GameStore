@@ -3,13 +3,14 @@
 @{
     ViewBag.Title = "GameStore: your cart";
 }
-
-<h2>Your cart</h2>
 <style>
     #cartTable td {
         vertical-align: middle;
     }
 </style>
+
+<h2>Your cart</h2>
+
 <table id="cartTable" class="table">
     <thead>
         <tr>
@@ -30,11 +31,11 @@
                     @((line.Quantity * line.Game.Price).ToString("# mdl"))
                 </td>
                 <td>
-                    @using(Html.BeginForm("RemoveFromCart", "Cart"))
-                    { 
+                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                    {
                         @Html.Hidden("GameId", line.Game.GameId)
                         @Html.HiddenFor(x => x.ReturnUrl)
-                        <input class="btn btn-sm btn-warning" type="submit" value="Delete"/>
+                        <input class="btn btn-sm btn-warning" type="submit" value="Delete" />
                     }
                 </td>
             </tr>
