@@ -11,14 +11,7 @@ namespace GameStore.WebUI.Controllers
 {
     public class CartController : Controller
     {
-        public ViewResult Index(string returnUrl)
-        {
-            return View(new CartIndexViewModel
-            {
-                Cart = GetCart(),
-                ReturnUrl = returnUrl
-            });
-        }
+
         private IGameRepository repository;
 
         public CartController(IGameRepository repo)
@@ -26,39 +19,37 @@ namespace GameStore.WebUI.Controllers
             this.repository = repo;
         }
 
-        public RedirectToRouteResult AddToCart( int gameId, string returnUrl)
+        public ViewResult Index(Cart cart, string returnUrl)
+        {
+            return View(new CartIndexViewModel
+            {
+                Cart = cart,
+                ReturnUrl = returnUrl
+            });
+        }
+
+        public RedirectToRouteResult AddToCart(Cart cart,int gameId, string returnUrl)
         {
             Game game = repository.Games
                 .FirstOrDefault(g => g.GameId == gameId);
 
             if(game != null )
             {
-                GetCart().AddItem(game, 1);
+                cart.AddItem(game, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public RedirectToRouteResult RemoveFromCart(int gameId, string returnUrl)
+        public RedirectToRouteResult RemoveFromCart(Cart cart,int gameId, string returnUrl)
         {
             Game game = repository.Games
                 .FirstOrDefault(g => g.GameId == gameId);
 
             if (game != null)
             {
-                GetCart().RemoveLine(game);
+                cart.RemoveLine(game);
             }
             return RedirectToAction("Index", new { returnUrl });
-        }
-
-        public Cart GetCart()
-        {
-            Cart cart = (Cart)Session["Cart"];
-            if(cart == null)
-            {
-                cart = new Cart();
-                Session["Cart"] = cart;
-            }
-            return cart;
         }
     }
 }
