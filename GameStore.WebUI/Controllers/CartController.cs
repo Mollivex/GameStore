@@ -12,11 +12,37 @@ namespace GameStore.WebUI.Controllers
     public class CartController : Controller
     {
 
-        private IGameRepository repository;
+        private readonly IGameRepository repository;
+        private readonly IOrderProcessor orderProcessor;
 
-        public CartController(IGameRepository repo)
+        public CartController(IGameRepository repo, IOrderProcessor processor)
         {
             this.repository = repo;
+            this.orderProcessor = processor;
+        }
+        public ViewResult Checkout()
+        {
+            return View(new ShippingDetails());
+        }
+
+        [HttpPost]
+        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        {
+            if (cart.Lines.Count() == 0)
+            {
+                ModelState.AddModelError("", "Sorry, your cart is empty!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                orderProcessor.ProcessOrder(cart, shippingDetails);
+                cart.Clear();
+                return View("Completed");
+            }
+            else
+            {
+                return View(shippingDetails);
+            }
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
