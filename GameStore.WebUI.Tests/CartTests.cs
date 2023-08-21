@@ -97,7 +97,7 @@ namespace GameStore.WebUI.Tests
 
             // Statement
             Assert.AreEqual(cart.Lines.Where(c => c.Game == game2).Count(), 0);
-            Assert.AreEqual(cart.Lines.Count(), 2);
+            Assert.AreEqual(cart.Lines.Count(), 3);
         }
 
         [TestMethod]

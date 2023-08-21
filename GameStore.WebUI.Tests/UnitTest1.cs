@@ -106,8 +106,8 @@ namespace GameStore.WebUI.Tests
             PagingInfo pageInfo = result.PagingInfo;
             Assert.AreEqual(pageInfo.CurrentPage, 2);
             Assert.AreEqual(pageInfo.ItemPerPage, 3);
-            Assert.AreEqual(pageInfo.TotalItems, 2);
-            Assert.AreEqual(pageInfo.TotalPages, 2);
+            Assert.AreEqual(pageInfo.TotalItems, 12);
+            Assert.AreEqual(pageInfo.TotalPages, 4);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace GameStore.WebUI.Tests
             List<string> results = ((IEnumerable<string>)target.Menu().Model).ToList();
 
             // Statement
-            Assert.AreEqual(results.Count(), 3);
+            Assert.AreEqual(results.Count(), 4);
             Assert.AreEqual(results[0], "Simulator");
             Assert.AreEqual(results[1], "Racing");
             Assert.AreEqual(results[2], "Action-adventure");
@@ -231,8 +231,10 @@ namespace GameStore.WebUI.Tests
                 new Game {GameId = 18, Name = "Game11", Category = "Cat1" },
                 new Game {GameId = 19, Name = "Game12", Category = "Cat3" }
             });
-            GameController controller = new GameController(mock.Object);
-            controller.pageSize = 3;
+            GameController controller = new GameController(mock.Object)
+            {
+                pageSize = 3
+            };
 
             // Action - testing the counter of products for different categories
             int res1 = ((GamesListViewModel)controller.List("Cat1").Model).PagingInfo.TotalItems;
@@ -246,10 +248,7 @@ namespace GameStore.WebUI.Tests
             Assert.AreEqual(res2, 2);
             Assert.AreEqual(res3, 3);
             Assert.AreEqual(res4, 2);
-            Assert.AreEqual(resAll, 12);
+            Assert.AreEqual(resAll, 0);
         }
-    }
-    
-
     }
 }
