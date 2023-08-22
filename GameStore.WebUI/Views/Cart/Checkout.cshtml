@@ -9,6 +9,9 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary();
+    <h3>Details</h3>
+
     <h3>Delivery address</h3>
     foreach(var property in ViewData.ModelMetadata.Properties) { 
         if(property.PropertyName != "Name" && property.PropertyName != "GiftWrap") {
