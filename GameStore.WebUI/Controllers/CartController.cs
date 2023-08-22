@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Moq;
 
 namespace GameStore.WebUI.Controllers
 {
@@ -14,12 +15,19 @@ namespace GameStore.WebUI.Controllers
 
         private readonly IGameRepository repository;
         private readonly IOrderProcessor orderProcessor;
+        private IGameRepository @object;
 
         public CartController(IGameRepository repo, IOrderProcessor processor)
         {
             this.repository = repo;
             this.orderProcessor = processor;
         }
+
+        public CartController(IGameRepository @object)
+        {
+            this.@object = @object;
+        }
+
         public ViewResult Checkout()
         {
             return View(new ShippingDetails());
@@ -81,11 +89,6 @@ namespace GameStore.WebUI.Controllers
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
-        }
-
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
-        {
-            return View(new ShippingDetails());
         }
     }
 }

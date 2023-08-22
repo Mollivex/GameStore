@@ -4,6 +4,8 @@ using GameStore.WebUI.Controllers;
 using GameStore.WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Moq.Protected;
+using Moq.Language;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -223,6 +225,94 @@ namespace GameStore.WebUI.Tests
             // Statement
             Assert.AreSame(result.Cart, cart);
             Assert.AreEqual(result.ReturnUrl, "myUrl");
+        }
+
+        [TestMethod]
+        public void Cannot_Checkout_Empty_Cart()
+        {
+            // Organization - creating simulated order handler
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+
+            // Orgranization - creating empty cart
+            Cart cart = new Cart();
+
+            // Organization - creating shipping details
+            ShippingDetails shippingDetails = new ShippingDetails();
+
+            // Organization - creating controller
+            CartController controller = new CartController(null, mock.Object);
+
+            // Action
+            ViewResult result = controller.Checkout(cart, shippingDetails);
+
+            // Statement - checking, that order isn't send to handler
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()), 
+                Times.Never());
+
+            // Statement - checking, that method has returned default view
+            Assert.AreEqual("", result.ViewName);
+
+            // Statement - checking, that view has wrong model
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
+        }
+
+        [TestMethod]
+        public void Cannot_Checkout_Invalid_ShippingDetails()
+        {
+            // Organization - creating simulated order handler
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+
+            // Organization - creating cart with the element
+            Cart cart = new Cart();
+            cart.AddItem(new Game(), 1);
+
+            // Organization - creating controller
+            CartController controller = new CartController(null, mock.Object);
+
+            // Organization - adding error to model
+            controller.ModelState.AddModelError("error", "error");
+
+            // Action - trying to checkout
+            ViewResult result = controller.Checkout(cart, new ShippingDetails());
+
+            // Statement - checking that the order isn't passed to the handler
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()),
+                Times.Never());
+
+            // Statement - checking, that method has returned default view
+            Assert.AreEqual("", result.ViewName);
+
+            // Statement - checking, that the wrong model is passed to the view
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
+        }
+
+        [TestMethod]
+        public void Can_Checkout_And_Submit_Order()
+        {
+            // Organization - creating simulated order handler
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+
+            // Organization - creating cart with the element
+            Cart cart = new Cart();
+            cart.AddItem(new Game(), 1);
+
+            // Organization - creating controller
+            CartController controller = new CartController(null, mock.Object);
+
+            // Action - trying to checkout
+            ViewResult result = controller.Checkout(cart, new ShippingDetails());
+
+            // Statement - checking, that the order has been passed to the handler
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()),
+                Times.Once());
+
+            // Statement - checking, that method returns view
+            Assert.AreEqual("Completed", result.ViewName);
+
+            // Statement - checking, that a valid model is being passed to the view
+            Assert.AreEqual(true, result.ViewData.ModelState.IsValid);
+
+
         }
     }
 }
