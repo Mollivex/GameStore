@@ -22,18 +22,11 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game {GameId = 8, Name = "Game1" },
-                new Game {GameId = 9, Name = "Game2" },
-                new Game {GameId = 10, Name = "Game3" },
-                new Game {GameId = 11, Name = "Game4" },
-                new Game {GameId = 12, Name = "Game5" },
-                new Game {GameId = 13, Name = "Game6" },
-                new Game {GameId = 14, Name = "Game7" },
-                new Game {GameId = 15, Name = "Game8" },
-                new Game {GameId = 16, Name = "Game9" },
-                new Game {GameId = 17, Name = "Game10" },
-                new Game {GameId = 18, Name = "Game11" },
-                new Game {GameId = 19, Name = "Game12" },
+                new Game {GameId = 1, Name = "Game1" },
+                new Game {GameId = 2, Name = "Game2" },
+                new Game {GameId = 3, Name = "Game3" },
+                new Game {GameId = 4, Name = "Game4" },
+                new Game {GameId = 5, Name = "Game5" }
             });
 
             GameController controller = new GameController(mock.Object);
@@ -45,8 +38,8 @@ namespace GameStore.WebUI.Tests
             // Statement (assert)
             List<Game> games = result.Games.ToList();
             Assert.IsTrue(games.Count == 2);
-            Assert.AreEqual(games[0].Name, "Game11");
-            Assert.AreEqual(games[1].Name, "Game12");
+            Assert.AreEqual(games[0].Name, "Game4");
+            Assert.AreEqual(games[1].Name, "Game5");
         }
 
         [TestMethod]
@@ -56,7 +49,7 @@ namespace GameStore.WebUI.Tests
             HtmlHelper myHelper = null;
 
             // Organization - creating PagingInfo object
-            PagingInfo pagingInfo = new PagingInfo()
+            PagingInfo pagingInfo = new PagingInfo
             {
                 CurrentPage = 2,
                 TotalItems = 28,
@@ -71,8 +64,8 @@ namespace GameStore.WebUI.Tests
 
             // Statement
             Assert.AreEqual(@"<a class=""btn btn-default"" href=""Page1"">1</a>"
-                            + @"<a class="" btn btn-default btn-primary selected"" href=""Page2"">2</a>"
-                            + @"<a class=""btn btn-default"" href=""Page3"">3<a/a>",
+                            + @"<a class=""btn btn-default btn-primary selected"" href=""Page2"">2</a>"
+                            + @"<a class=""btn btn-default"" href=""Page3"">3</a>",
                             result.ToString());
         }
 
@@ -83,18 +76,11 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game {GameId = 8, Name = "Game1" },
-                new Game {GameId = 9, Name = "Game2" },
-                new Game {GameId = 10, Name = "Game3" },
-                new Game {GameId = 11, Name = "Game4" },
-                new Game {GameId = 12, Name = "Game5" },
-                new Game {GameId = 13, Name = "Game6" },
-                new Game {GameId = 14, Name = "Game7" },
-                new Game {GameId = 15, Name = "Game8" },
-                new Game {GameId = 16, Name = "Game9" },
-                new Game {GameId = 17, Name = "Game10" },
-                new Game {GameId = 18, Name = "Game11" },
-                new Game {GameId = 19, Name = "Game12" }
+                new Game {GameId = 1, Name = "Game1" },
+                new Game {GameId = 2, Name = "Game2" },
+                new Game {GameId = 3, Name = "Game3" },
+                new Game {GameId = 4, Name = "Game4" },
+                new Game {GameId = 5, Name = "Game5" }
             });
             GameController controller = new GameController(mock.Object);
             controller.pageSize = 3;
@@ -106,8 +92,8 @@ namespace GameStore.WebUI.Tests
             PagingInfo pageInfo = result.PagingInfo;
             Assert.AreEqual(pageInfo.CurrentPage, 2);
             Assert.AreEqual(pageInfo.ItemPerPage, 3);
-            Assert.AreEqual(pageInfo.TotalItems, 12);
-            Assert.AreEqual(pageInfo.TotalPages, 4);
+            Assert.AreEqual(pageInfo.TotalItems, 5);
+            Assert.AreEqual(pageInfo.TotalPages, 2);
         }
 
         [TestMethod]
@@ -117,18 +103,11 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game {GameId = 8, Name = "Game1", Category = "Cat1" },
-                new Game {GameId = 9, Name = "Game2", Category = "Cat2" },
-                new Game {GameId = 10, Name = "Game3", Category = "Cat1" },
-                new Game {GameId = 11, Name = "Game4", Category = "Cat3" },
-                new Game {GameId = 12, Name = "Game5", Category = "Cat2" },
-                new Game {GameId = 13, Name = "Game6", Category = "Cat1" },
-                new Game {GameId = 14, Name = "Game7", Category = "Cat4" },
-                new Game {GameId = 15, Name = "Game8", Category = "Cat1" },
-                new Game {GameId = 16, Name = "Game9", Category = "Cat4" },
-                new Game {GameId = 17, Name = "Game10", Category = "Cat3" },
-                new Game {GameId = 18, Name = "Game11", Category = "Cat1" },
-                new Game {GameId = 19, Name = "Game12", Category = "Cat3" }
+                new Game {GameId = 1, Name = "Game1", Category = "Cat1" },
+                new Game {GameId = 2, Name = "Game2", Category = "Cat2" },
+                new Game {GameId = 3, Name = "Game3", Category = "Cat1" },
+                new Game {GameId = 4, Name = "Game4", Category = "Cat2" },
+                new Game {GameId = 5, Name = "Game5", Category = "Cat3" },
             });
             GameController controller = new GameController(mock.Object);
             controller.pageSize = 3;
@@ -139,7 +118,7 @@ namespace GameStore.WebUI.Tests
             // Assert
             Assert.AreEqual(result.Count(), 2);
             Assert.IsTrue(result[0].Name == "Game2" && result[0].Category == "Cat2");
-            Assert.IsTrue(result[0].Name == "Game5" && result[1].Category == "Cat2");
+            Assert.IsTrue(result[1].Name == "Game4" && result[1].Category == "Cat2");
         }
 
         [TestMethod]
@@ -149,18 +128,10 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game {GameId = 8, Name = "Game1", Category = "Simulator" },
-                new Game {GameId = 9, Name = "Game2", Category = "First-person shooter" },
-                new Game {GameId = 10, Name = "Game3", Category = "Simulator" },
-                new Game {GameId = 11, Name = "Game4", Category = "Racing" },
-                new Game {GameId = 12, Name = "Game5", Category = "First-person shooter" },
-                new Game {GameId = 13, Name = "Game6", Category = "Simulator" },
-                new Game {GameId = 14, Name = "Game7", Category = "Action-adventure" },
-                new Game {GameId = 15, Name = "Game8", Category = "Simulator" },
-                new Game {GameId = 16, Name = "Game9", Category = "Action-adventure" },
-                new Game {GameId = 17, Name = "Game10", Category = "Racing" },
-                new Game {GameId = 18, Name = "Game11", Category = "Simulator" },
-                new Game {GameId = 19, Name = "Game12", Category = "Racing" }
+                new Game {GameId = 1, Name = "Game1", Category = "Simulator" },
+                new Game {GameId = 2, Name = "Game2", Category = "Simulator" },
+                new Game {GameId = 3, Name = "Game3", Category = "Shooter" },
+                new Game {GameId = 4, Name = "Game4", Category = "RPG" }
             });
 
             // Organization - creating controller
@@ -170,11 +141,10 @@ namespace GameStore.WebUI.Tests
             List<string> results = ((IEnumerable<string>)target.Menu().Model).ToList();
 
             // Statement
-            Assert.AreEqual(results.Count(), 4);
-            Assert.AreEqual(results[0], "Simulator");
-            Assert.AreEqual(results[1], "Racing");
-            Assert.AreEqual(results[2], "Action-adventure");
-            Assert.AreEqual(results[3], "First-person shooter");
+            Assert.AreEqual(results.Count(), 3);
+            Assert.AreEqual(results[0], "RPG");
+            Assert.AreEqual(results[1], "Shooter");
+            Assert.AreEqual(results[2], "Simulator");
         }
 
         [TestMethod]
@@ -184,18 +154,11 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new Game[]
             {
-                new Game {GameId = 8, Name = "Game1", Category = "Simulator" },
-                new Game {GameId = 9, Name = "Game2", Category = "First-person shooter" },
-                new Game {GameId = 10, Name = "Game3", Category = "Simulator" },
-                new Game {GameId = 11, Name = "Game4", Category = "Racing" },
-                new Game {GameId = 12, Name = "Game5", Category = "First-person shooter" },
-                new Game {GameId = 13, Name = "Game6", Category = "Simulator" },
-                new Game {GameId = 14, Name = "Game7", Category = "Action-adventure" },
-                new Game {GameId = 15, Name = "Game8", Category = "Simulator" },
-                new Game {GameId = 16, Name = "Game9", Category = "Action-adventure" },
-                new Game {GameId = 17, Name = "Game10", Category = "Racing" },
-                new Game {GameId = 18, Name = "Game11", Category = "Simulator" },
-                new Game {GameId = 19, Name = "Game12", Category = "Racing" }
+                new Game {GameId = 1, Name = "Game1", Category = "Simulator" },
+                new Game {GameId = 2, Name = "Game2", Category = "First-person shooter" },
+                new Game {GameId = 3, Name = "Game3", Category = "Simulator" },
+                new Game {GameId = 4, Name = "Game4", Category = "Racing" },
+                new Game {GameId = 5, Name = "Game5", Category = "First-person shooter" },
             });
 
             // Organization - creating controller
@@ -218,18 +181,18 @@ namespace GameStore.WebUI.Tests
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new List<Game>
             {
-                new Game {GameId = 8, Name = "Game1", Category = "Cat1" },
-                new Game {GameId = 9, Name = "Game2", Category = "Cat2" },
-                new Game {GameId = 10, Name = "Game3", Category = "Cat1" },
-                new Game {GameId = 11, Name = "Game4", Category = "Cat3" },
-                new Game {GameId = 12, Name = "Game5", Category = "Cat2" },
-                new Game {GameId = 13, Name = "Game6", Category = "Cat1" },
-                new Game {GameId = 14, Name = "Game7", Category = "Cat4" },
-                new Game {GameId = 15, Name = "Game8", Category = "Cat1" },
-                new Game {GameId = 16, Name = "Game9", Category = "Cat4" },
-                new Game {GameId = 17, Name = "Game10", Category = "Cat3" },
-                new Game {GameId = 18, Name = "Game11", Category = "Cat1" },
-                new Game {GameId = 19, Name = "Game12", Category = "Cat3" }
+                new Game {GameId = 1, Name = "Game1", Category = "Cat1" },
+                new Game {GameId = 2, Name = "Game2", Category = "Cat2" },
+                new Game {GameId = 3, Name = "Game3", Category = "Cat1" },
+                new Game {GameId = 4, Name = "Game4", Category = "Cat3" },
+                new Game {GameId = 5, Name = "Game5", Category = "Cat2" },
+                new Game {GameId = 6, Name = "Game6", Category = "Cat1" },
+                new Game {GameId = 7, Name = "Game7", Category = "Cat4" },
+                new Game {GameId = 8, Name = "Game8", Category = "Cat1" },
+                new Game {GameId = 9, Name = "Game9", Category = "Cat4" },
+                new Game {GameId = 10, Name = "Game10", Category = "Cat3" },
+                new Game {GameId = 11, Name = "Game11", Category = "Cat1" },
+                new Game {GameId = 12, Name = "Game12", Category = "Cat3" }
             });
             GameController controller = new GameController(mock.Object)
             {
