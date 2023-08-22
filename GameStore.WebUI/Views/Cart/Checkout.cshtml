@@ -11,6 +11,10 @@
 {
     @Html.ValidationSummary();
     <h3>Details</h3>
+    <div class="form-group">
+        <label>Your name:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
 
     <h3>Delivery address</h3>
     foreach(var property in ViewData.ModelMetadata.Properties) { 

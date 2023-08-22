@@ -20,7 +20,7 @@ namespace GameStore.Domain.Concrete
         public string ServerName = "smtp.example.com";
         public int ServerPort = 587;
         public bool WriteAsFile = true;
-        public string FileLocation = @"c:\game_store_emails";
+        public string FileLocation = @"C:\Users\alexa\source\repos\GameStore\Mails\";
     }
     public class EmailOrderProcessor : IOrderProcessor
     {
@@ -58,7 +58,7 @@ namespace GameStore.Domain.Concrete
                 foreach( var line in cart.Lines)
                 {
                     var subtotal = line.Game.Price * line.Quantity;
-                    body.AppendFormat("{0} x {1} (total: {2:c}",
+                    body.AppendFormat("{0} x {1} (total: {2:c})",
                         line.Quantity, line.Game.Name, subtotal);
                 }
 

@@ -1,0 +1,15 @@
+X-Sender: licoms1997@gmail.com
+X-Receiver: orders@example.com
+MIME-Version: 1.0
+From: licoms1997@gmail.com
+To: orders@example.com
+Date: 22 Aug 2023 22:05:15 +0300
+Subject: New order sent!
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+TmV3IG9yZGVyIHByb2Nlc3NlZA0KLS0tDQpQcm9kdWN0czoNCjEgeCBCYXR0bGVmaWVs
+ZCAzIChQcmVtaXVtKSAodG90YWw6IDHCoDA5OSw5OSDigr0pVG90YWwgcHJpY2U6IDHC
+oDA5OSw5OSDigr0tLS0NCkRlbGl2ZXJ5DQpBbGV4YW5kciBDb2NpZXINCmJkLiBNaXJj
+ZWEgY2VsIEJhdHJpbi0tDQoNCg0KMjA4MzQxOC0NClJ1c3NpYQ0KLS0tDQpHaWZ0IHdy
+YXA6IE5v
