@@ -58,11 +58,11 @@ namespace GameStore.Domain.Concrete
                 foreach( var line in cart.Lines)
                 {
                     var subtotal = line.Game.Price * line.Quantity;
-                    body.AppendFormat("{0} x {1} (total: {2:c})",
+                    body.AppendFormat("{0} x {1} (Total: {2} mdl)",
                         line.Quantity, line.Game.Name, subtotal);
                 }
 
-                body.AppendFormat("Total price: {0:c}", cart.ComputeTotalValue())
+                body.AppendFormat(" Total price: {0} mdl", cart.ComputeTotalValue())
                     .AppendLine("---")
                     .AppendLine("Delivery")
                     .AppendLine(shippingInfo.Name)

@@ -7,10 +7,22 @@
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet"/>
     <link href="~/Content/ErrorStyles.css" rel="stylesheet"/>
     <title>@ViewBag.Title</title>
+    <style>
+        .navbar-right{
+            float: right !important;
+            margin-right: 15px;
+            margin-left: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse" role="navigation">
-        <a class="navbar-brand" href="#">GameStore - online PC games store</a>
+        <a class="navbar-brand" href="#">
+
+            <span class="hidden-xs">GameStore - online PC games store</span>
+            <div class="visible-xs">Game</div>
+            <div class="visible-xs">Store</div>
+        </a>
         @Html.Action("Summary", "Cart")
     </div>
 
