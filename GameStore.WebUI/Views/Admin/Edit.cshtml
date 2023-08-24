@@ -1,0 +1,15 @@
+﻿@model GameStore.Domain.Entities.Game
+
+@{
+    ViewBag.Title = "Admin panel: Edit item";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit game "@Model.Name"</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Save" />
+    @Html.ActionLink("Discard changes and return to the list", "Index")
+}
