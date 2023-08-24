@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace GameStore.WebUI.Tests
+namespace GameStore.UnitTests
 {
     [TestClass]
     public class CartTests

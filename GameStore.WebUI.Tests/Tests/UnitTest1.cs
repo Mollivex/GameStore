@@ -10,7 +10,7 @@ using GameStore.WebUI.Controllers;
 using GameStore.WebUI.Models;
 using GameStore.WebUI.HtmlHelpers;
 
-namespace GameStore.WebUI.Tests
+namespace GameStore.UnitTests
 {
     [TestClass]
     public class UnitTest1
