@@ -5,11 +5,44 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Edit game "@Model.Name"</h2>
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Edit game "@Model.Name"</h3>
+    </div>
+    
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.GameId)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if(property.PropertyName != "GameId")
+                {
+                    <div class="form-group">
+                        <label>@(property.DisplayName ?? property.PropertyName) </label>
+                        @if (property.PropertyName == "Description")
+                        {
+                            @Html.TextArea(property.PropertyName, null,
+                                new { @class = "form-control", rows = 5})
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null,
+                                new { @class = "form-control"})
+                        }
+                    </div>
+                }
+            }
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Discard changes and return to the list", "Index", null,
+                new
+                {
+                    @class = "btn btn-default"
+                })
+        </div>
+    }
+</div>
 
-@using (Html.BeginForm())
-{
-    @Html.EditorForModel()
-    <input type="submit" value="Save" />
-    @Html.ActionLink("Discard changes and return to the list", "Index")
-}
+
