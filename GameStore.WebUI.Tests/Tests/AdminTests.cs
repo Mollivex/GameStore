@@ -91,5 +91,52 @@ namespace GameStore.UnitTests
 
             //Assert
         }
+
+        [TestMethod]
+        public void Can_Save_Valid_Changes()
+        {
+            // Organization - creating simulated repository
+            Mock<IGameRepository> mock = new Mock<IGameRepository>();
+
+            // Organization - creating controller
+            AdminController controller = new AdminController(mock.Object);
+
+            // Organization - creating Game object
+            Game game = new Game { Name = "Test" };
+
+            // Act - trying to save item
+            ActionResult result = controller.Edit(game);
+
+            // Statement - checking, that repository has been accessed
+            mock.Verify(m => m.SaveGame(game));
+
+            // Statement - checking method result type
+            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void Cannot_Save_Invalid_Changes()
+        {
+            // Organization - creating simualted repository
+            Mock<IGameRepository> mock = new Mock<IGameRepository> ();
+
+            // Organization - creating controller
+            AdminController controller = new AdminController(mock.Object);
+
+            // Organization - creating Game object
+            Game game = new Game { Name = "Test" };
+
+            // Organization - adding an error to model state
+            controller.ModelState.AddModelError("error", "error");
+
+            // Act - trying to save item
+            ActionResult result = controller.Edit(game);
+
+            // Statement - checking, that repository has NOT been accessed
+            mock.Verify(m => m.SaveGame(It.IsAny<Game>()), Times.Never());
+
+            // Statement - checking method result type
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+        }
     }
 }

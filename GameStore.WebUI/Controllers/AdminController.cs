@@ -26,5 +26,22 @@ namespace GameStore.WebUI.Controllers
                 .FirstOrDefault(g => g.GameId == gameId);
             return View(game);
         }
+
+        // Edit() overloaded version for save changes
+        [HttpPost]
+        public ActionResult Edit (Game game)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveGame(game);
+                TempData["message"] = string.Format("Game changes \"{0}\" was saved", game.Name);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Something wrong happened with data values
+                return View(game);
+            }
+        }
     }
 }
