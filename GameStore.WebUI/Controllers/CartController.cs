@@ -16,17 +16,15 @@ namespace GameStore.WebUI.Controllers
         private readonly IGameRepository repository;
         private readonly IOrderProcessor orderProcessor;
 
-        public IGameRepository Object { get; }
-
         public CartController(IGameRepository repo, IOrderProcessor processor)
         {
             this.repository = repo;
             this.orderProcessor = processor;
         }
 
-        public CartController(IGameRepository object1)
+        public CartController(IGameRepository repo)
         {
-            Object = object1;
+            this.repository = repo;
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
