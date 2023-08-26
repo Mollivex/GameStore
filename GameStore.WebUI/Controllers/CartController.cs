@@ -15,7 +15,6 @@ namespace GameStore.WebUI.Controllers
 
         private readonly IGameRepository repository;
         private readonly IOrderProcessor orderProcessor;
-        private readonly IGameRepository @object;
 
         public IGameRepository Object { get; }
 

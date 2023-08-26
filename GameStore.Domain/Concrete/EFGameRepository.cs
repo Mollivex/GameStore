@@ -10,7 +10,7 @@ namespace GameStore.Domain.Concrete
 {
     public class EFGameRepository : IGameRepository
     {
-        EFDbContext context = new EFDbContext();
+        readonly EFDbContext context = new EFDbContext();
 
         public IEnumerable<Game> Games
         {
