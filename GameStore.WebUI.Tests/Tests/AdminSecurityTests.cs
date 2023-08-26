@@ -5,7 +5,7 @@ using GameStore.WebUI.Controllers;
 using GameStore.WebUI.Infrastructure.Abstract;
 using GameStore.WebUI.Models;
 
-namespace GameStore.WebUI.Tests.Tests
+namespace GameStore.UnitTests
 {
     [TestClass]
     public class AdminSecurityTests

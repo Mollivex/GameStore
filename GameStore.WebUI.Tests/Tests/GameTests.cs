@@ -13,7 +13,7 @@ using GameStore.WebUI.HtmlHelpers;
 namespace GameStore.UnitTests
 {
     [TestClass]
-    public class UnitTest1
+    public class GameTests
     {
         [TestMethod]
         public void Can_Paginate()
@@ -150,7 +150,7 @@ namespace GameStore.UnitTests
         [TestMethod]
         public void Indicates_Selected_Categories()
         {
-            // Organization - creating simulated storage
+            // Organization - creating mocked storage
             Mock<IGameRepository> mock = new Mock<IGameRepository>();
             mock.Setup(m => m.Games).Returns(new Game[]
             {

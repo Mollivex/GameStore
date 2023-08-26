@@ -45,7 +45,7 @@ namespace GameStore.WebUI.Controllers
         public FileContentResult GetImage(int gameId)
         {
             Game game = repository.Games
-                .FirstOrDefault(g => g.GameId = = gameId);
+                .FirstOrDefault(g => g.GameId == gameId);
 
             if (game != null)
             {
