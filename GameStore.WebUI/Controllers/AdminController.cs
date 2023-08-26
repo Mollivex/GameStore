@@ -30,10 +30,16 @@ namespace GameStore.WebUI.Controllers
 
         // Edit() overloaded version for save changes
         [HttpPost]
-        public ActionResult Edit (Game game)
+        public ActionResult Edit (Game game, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    game.ImageMimeType = image.ContentType;
+                    game.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(game.ImageData, 0, image.ContentLength);
+                }
                 repository.SaveGame(game);
                 TempData["message"] = string.Format("Game changes \"{0}\" was saved", game.Name);
                 return RedirectToAction("Index");
