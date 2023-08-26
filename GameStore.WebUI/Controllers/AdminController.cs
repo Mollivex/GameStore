@@ -48,5 +48,17 @@ namespace GameStore.WebUI.Controllers
         {
             return View("Edit", new Game());
         }
+
+        [HttpPost]
+        public ActionResult Delete(int gameId)
+        {
+            Game deletedGame = repository.DeleteGame(gameId);
+            if (deletedGame != null)
+            {
+                TempData["message"] = string.Format("Game \"{0}\" was deleted",
+                    deletedGame.Name);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

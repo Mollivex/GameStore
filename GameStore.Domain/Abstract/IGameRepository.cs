@@ -11,5 +11,6 @@ namespace GameStore.Domain.Abstract
     {
         IEnumerable<Game> Games { get; }
         void SaveGame(Game game);
+        Game DeleteGame(int gameId);
     }
 }
