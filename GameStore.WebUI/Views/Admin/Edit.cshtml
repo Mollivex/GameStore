@@ -10,16 +10,22 @@
         <h3>Edit game "@Model.Name"</h3>
     </div>
     
-    @using (Html.BeginForm("Edit", "Admin"))
+    @using (Html.BeginForm("Edit", "Admin",
+        FormMethod.Post, new {enctype = "multipart/form-data" }))
     {
         <div class="panel-body">
             @Html.HiddenFor(m => m.GameId)
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
-                if(property.PropertyName != "GameId")
-                {
+                switch (property.PropertyName) { 
+                    case "GameId":
+                    case "ImageData":
+                    case "ImageMimeType":
+                        // To do nothing
+                        break;
+                    default:
                     <div class="form-group">
-                        <label>@(property.DisplayName ?? property.PropertyName) </label>
+                    <label>@(property.DisplayName ?? property.PropertyName)</label>
                         @if (property.PropertyName == "Description")
                         {
                             @Html.TextArea(property.PropertyName, null,
@@ -28,14 +34,41 @@
                         else
                         {
                             @Html.TextBox(property.PropertyName, null,
-                                new { @class = "form-control"})
+                                new { @class = "form-contol" })
                         }
-
                         @Html.ValidationMessage(property.PropertyName)
                     </div>
+                    break;
                 }
             }
         </div>
+
+        <div class="form-group">
+            <div style="position:relative;">
+                <label>Image</label>
+                <a class="btn" href="javascript:;">
+                    Choose file...
+                    <input type="file" name="Image" size="40"
+                           style="position:absolute;z-index:2;top:0;
+                           left:0;filter: alpha(opacity=0); opacity:0;
+                           background-color:transparent;color:transparent;"
+                           onchange='$("#upload-file-info").html($(this).val());'>
+                </a>
+                <span class="label label-info" id="upload-file-info"></span>
+            </div>
+            @if (Model.ImageData == null)
+            {
+                <div class="form-control-static">No image</div>
+            }
+            else
+            {
+                <img class="img-thumbnail" width="150" height="150"
+                     src="@Url.Action("GetImage", "Game",
+                     new { Model.GameId })"/>
+            }
+
+        </div>
+
         <div class="panel-footer">
             <input type="submit" value="Save" class="btn btn-primary" />
             @Html.ActionLink("Discard changes and return to the list", "Index", null,
