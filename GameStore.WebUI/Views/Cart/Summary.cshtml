@@ -1,6 +1,6 @@
 ﻿@model GameStore.Domain.Entities.Cart
 
-<div class="navbar-right hidden-xs">
+<div class="navbar-right hidden-xs"  style="margin:10px">
     @Html.ActionLink("Cart", "Index", "Cart",
     new { returnUrl = Request.Url.PathAndQuery },
     new { @class = "btn btn-default navbar-btn" })

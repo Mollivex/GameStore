@@ -5,13 +5,17 @@
     string wrapperClasses = horizontal ? "btn-group btn-group-sm btn-group-justified" : null;
 }
 
+
+
 <div class="@wrapperClasses">
     @Html.ActionLink("Home", "List", "Game", null,
-    new 
+    new
     {
         @class = horizontal ? "btn btn-default btn-sm" :
             "btn btn-block btn-default btn-lg"
     })
+
+    <h3 style="text-align:center"><u><strong>Category</strong></u></h3>
 
     @foreach (var link in Model)
     {

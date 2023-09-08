@@ -1,12 +1,14 @@
 ﻿@model GameStore.Domain.Entities.Game
 
-<div class="well">
+<div class="well" style="display:inline-block">
     @if (Model.ImageData != null)
     {
         <div class="pull-left" style="margin-right: 10px">
-            <img class="img-thumbnail" width="150" height="150"
-                 src="@Url.Action("GetImage", "Game",
+            <p>
+                <img class="img-thumbnail" style="max-height:250px; max-width:250px; margin:10px"
+                     src="@Url.Action("GetImage", "Game",
                 new { Model.GameId })" />
+            </p>
         </div>
     }
 
